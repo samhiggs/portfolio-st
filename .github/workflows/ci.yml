@@ -23,3 +23,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: echo Hello World!
+      - run: |
+        echo This is a multi-line,
+        echo comment
