@@ -1,28 +1,17 @@
-# name: CI
+name: Deploy
 
-# on: [push]
+on:
+  push:
+    branches:
+      - master
 
-# jobs:
-#   build:
-
-#     runs-on: ubuntu-latest
-
-#     steps:
-#     - uses: actions/checkout@v1
-#     - name: Run a one-line script
-#       run: echo Hello, world!
-#     - name: Run a multi-line script
-#       run: |
-#         echo Add other actions to build,
-#         echo test, and deploy your project.
-name: learn-github-actions
-on: [push]
 jobs:
-  check-bats-version:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: echo Hello World!
-      - run: |
-          echo This is a multi-line,
-          echo comment.
+      - uses: akhileshns/heroku-deploy@v3.8.8
+        with:
+          heroku_api_key: ${{secrets.HEROKU_KEY}}
+          heroku_app_name: "samhiggs-portfolio-dev" #Must be unique in Heroku
+          heroku_email: "samhiggs@pm.me"
