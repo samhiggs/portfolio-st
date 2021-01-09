@@ -25,4 +25,4 @@ jobs:
       - run: echo Hello World!
       - run: |
         echo This is a multi-line,
-        echo comment
+        echo comment.
