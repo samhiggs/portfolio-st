@@ -8,11 +8,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Setup Python
-        uses: actions/setup-python@master
+        uses: actions/setup-python
         with:
           python-version: 3.8
       - name: Run Styleguide Check
-        uses: wemake-services/wemake-python-styleguide@latest
+        uses: wemake-services/wemake-python-styleguide@0.14.1
         continue-on-error: true
         with:
           reporter: 'github-pr-review'
