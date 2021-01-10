@@ -1,17 +1,21 @@
 name: Python Pull Request Workflow
-
 on: [pull_request]
 jobs:
+
   qa:
-    name: Linting
-    runs-on: ubuntu-20.04
+    name: Quality check
+    runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup Python
-        uses: actions/setup-python@v2
+      - uses: actions/checkout@v1
+      - name: Set up Python
+        uses: actions/setup-python@master
         with:
           python-version: 3.8
-      - name: Run Styleguide Check
+      - name: Run unit tests
+        run: |
+          pip install pytest
+          pytest
+      - name: Wemake Python Stylguide
         uses: wemake-services/wemake-python-styleguide@0.14.1
         continue-on-error: true
         with:
