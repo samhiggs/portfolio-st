@@ -1,6 +1,19 @@
-# SHELL=/bin/bash
+SHELL=/bin/bash
 
-# .PHONY: build
+.PHONY: build startup setup install
+
+setup:
+	python -m venv .venv
+
+install:
+	python -m pip install -r requirements.txt
+
+startup:
+	[[ -d .venv ]] || make setup
+	source ./.venv/bin/activate
+	make install
+
+make test:
 
 # .PHONY: pylint
 # # Run "black", our Python formatter, to verify that our source files
@@ -29,28 +42,29 @@
 # 	fi
 
 
-# .PHONY: pytest
-# # Run Python unit tests.
-# pytest:
-# 	# Just testing. No code coverage.
-# 	cd lib; \
-# 		PYTHONPATH=. \
-# 		pytest -v \
-# 			--junitxml=test-reports/pytest/junit.xml \
-# 			-l tests/ \
-# 			$(PYTHON_MODULES)
+.PHONY: pytest
+# Run Python unit tests.
+pytest:
+	pip install -U pytest
+	# Just testing. No code coverage.
+	cd lib; \
+		PYTHONPATH=. \
+		pytest -v \
+			--junitxml=test-reports/pytest/junit.xml \
+			-l tests/ \
+			$(PYTHON_MODULES)
 
-# .PHONY: pycoverage
-# # Show Python test coverage.
-# pycoverage:
-# 	# testing + code coverage
-# 	cd lib; \
-# 		PYTHONPATH=. \
-# 		pytest -v \
-# 			--junitxml=test-reports/pytest/junit.xml \
-# 			-l $(foreach dir,$(PYTHON_MODULES),--cov=$(dir)) \
-# 			--cov-report=term-missing tests/ \
-# 			$(PYTHON_MODULES)
+.PHONY: pycoverage
+# Show Python test coverage.
+pycoverage:
+	# testing + code coverage
+	cd lib; \
+		PYTHONPATH=. \
+		pytest -v \
+			--junitxml=test-reports/pytest/junit.xml \
+			-l $(foreach dir,$(PYTHON_MODULES),--cov=$(dir)) \
+			--cov-report=term-missing tests/ \
+			$(PYTHON_MODULES)
 
 # .PHONY: deploy
 # deploy:
